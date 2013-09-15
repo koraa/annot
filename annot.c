@@ -340,7 +340,9 @@ void* ll_pop(LL *queue) {
     nend->next = NULL;
     queue->last = nend;
   }
+
   mutex_unlock(queue->lock);
+  return R;
 
 }
 
