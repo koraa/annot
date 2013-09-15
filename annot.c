@@ -262,7 +262,7 @@ struct LL__ {
 
 bool ll_empty(LL *ll) {
   bool R = ll->head == NULL;
-  if ((ll->last == NULL) == R)
+  if ((ll->last == NULL) != R)
     bug("Illegal ll state: %p [%p, %p]",
         ll, ll->head, ll->last);
   return R; 
