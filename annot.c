@@ -325,7 +325,6 @@ void ll_push(LL *queue, void* buf) {
 void* ll_pop(LL *queue) {
   mutex_lock(queue->lock); 
   ll_waitr(queue);
-  return R;
   cond_signal(queue->sigavail);
 
 
@@ -686,6 +685,7 @@ void *thr_time(void *arg__) {
 
 typedef struct ArgPrint__ ArgPrint;
 struct ArgPrint__ {
+  char delim;
   FILE *f;
 };
 void *thr_print(void *arg__) {
@@ -700,7 +700,7 @@ void *thr_print(void *arg__) {
         "%" PRIu64 " %" PRIu64 " %" PRIu64 " ", 
         t->epoch, t->sstart, t->slast);
     putItok(args->f, t->str); 
-    fputc('\n', args->f);
+    fputc(args->delim, args->f);
 
     deleteTok(t);
   }
@@ -715,7 +715,7 @@ int main(int argc, char** argv) {
 
   ArgRead  ar = {'\n', stdin};
   ArgTime  at = {CLOCK_MONOTONIC};
-  ArgPrint ap = {stdout};
+  ArgPrint ap = {'\n', stdout};
 
   // Run the program
 
