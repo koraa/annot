@@ -324,17 +324,23 @@ void ll_push(LL *queue, void* buf) {
 void* ll_pop(LL *queue) {
   mutex_lock(queue->lock); 
   ll_waitr(queue);
-
-  LLelem *nend = queue->last->prev;
-
-  void* R = queue->last->buf;
-  free(queue->last);
-  queue->last = nend;
-
-  mutex_unlock(queue->lock);
+  return R;
   cond_signal(queue->sigavail);
 
-  return R;
+
+  LLelem *nend = queue->last->prev;
+  void* R = queue->last->buf;
+
+  free(queue->last);
+
+  if (nend==NULL) {
+    queue->head = queue->last = NULL;
+  } else {
+    nend->next = NULL;
+    queue->last = nend;
+  }
+  mutex_unlock(queue->lock);
+
 }
 
 /**
