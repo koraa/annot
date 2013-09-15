@@ -528,7 +528,7 @@ void getItok(FILE *f, char delim, LL *qu) {
  * because it should contain a \0.
  */
 void putItok(FILE *f, LL *tok) {
-  if (!ll_empty(tok))
+  if (ll_empty(tok))
     bug("Trying to write an empty Itok.");
 
   IBuf *b;
