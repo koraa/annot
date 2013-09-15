@@ -269,6 +269,7 @@ bool ll_empty(LL *ll) {
 }
 
 void ll_init(LL* ll) {
+  ll->head = ll->last = NULL;
   ll->lock = newMutex(NULL);
   ll->sigavail = newCond(NULL);
   ll->EOT = false;
