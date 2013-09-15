@@ -294,6 +294,7 @@ void deleteLL(LL* ll) {
 }
 
 void ll_waitr(LL *l) {
+  // TODO: Recursive lock
   while (true) {
     if (!ll_empty(l))
       return;
@@ -428,7 +429,7 @@ void ibuf_drop(IBuf *b, size_t effec) {
   ((char*) b->buf)[b->len-1]  = '\0';
 }
 
-// We store the buffers to recycle here
+// We store the buffers to recycle here*/
 LL *recyclr;
 
 /** Reuse a recycled buffer or generate a new one if no buffer is available */
@@ -526,6 +527,8 @@ void getItok(FILE *f, char delim, LL *qu) {
  * list and recicled (the list will be empty).
  * The last byte of the last buffer will be omitted,
  * because it should contain a \0.
+ *
+ * TODO: The \0 delim is stupid.
  */
 void putItok(FILE *f, LL *tok) {
   if (ll_empty(tok))
