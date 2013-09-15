@@ -8,6 +8,7 @@
 #include <string.h>
 #include <errno.h>
 #include <inttypes.h>
+#include <execinfo.h>
 
 #define nano  1
 #define micro nano  * 1000
@@ -23,14 +24,25 @@ typedef char* Str;
 
 #define ERRERR 253
 
-#define msgxit(...) msgxit__(__VA_ARGS__); exit(ERRERR);
+void printBacktrace(FILE* f) {
+  size_t stacksp = 1024;
+  void *stack[stacksp];
+  
+  size_t stackl = backtrace(stack, stacksp);
+  fputs("STACK TRACE:\n", f);
+  backtrace_symbols_fd(stack, stackl, fileno(f));
+  fputc('\n', stderr);
+}
+
 #define msgxit(...) { msgxit__(__VA_ARGS__); exit(ERRERR);}
 void msgxit__(int no, char* annot, char* fmt, va_list args) {
   // TODO: Print stack trace
 
   fprintf(stderr, "[%s] ", annot);
   vfprintf(stderr, fmt, args);
-  fprintf(stderr, "\nSorry, bye: exit(%i)\n", no);
+  fputc('\n', stderr);
+  printBacktrace(stderr);
+  fprintf(stderr, "Sorry, bye: exit(%i)\n", no);
 
   exit(no);
 }
