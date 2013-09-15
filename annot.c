@@ -22,9 +22,10 @@ typedef char* Str;
 
 // TODO: Handle mutex errors
 
-#define ERRERR 199
+#define ERRERR 253
 
 #define msgxit(...) msgxit__(__VA_ARGS__); exit(ERRERR);
+#define msgxit(...) { msgxit__(__VA_ARGS__); exit(ERRERR);}
 void msgxit__(int no, char* annot, char* fmt, va_list args) {
   // TODO: Print stack trace
 
@@ -35,7 +36,7 @@ void msgxit__(int no, char* annot, char* fmt, va_list args) {
   exit(no);
 }
 
-#define bug(...) bug__(__VA_ARGS__); exit(ERRERR);
+#define bug(...) { bug__(__VA_ARGS__); exit(ERRERR); }
 void bug__(char* fmt, ...) {
   va_list args;
   va_start(args, fmt);
@@ -45,7 +46,7 @@ void bug__(char* fmt, ...) {
   va_end(args);
 }
 
-#define er_args(...) bug(__VA_ARGS__); exit(ERRERR);
+#define er_args(...) {bug(__VA_ARGS__); exit(ERRERR);}
 void er_args__(char* fmt, ...) {
   va_list args;
   va_start(args, fmt);
