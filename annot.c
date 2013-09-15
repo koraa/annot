@@ -692,7 +692,7 @@ void *thr_print(void *arg__) {
     nlock_wait(t->edit);
 
     fprintf(args->f,
-        " " PRIu64 " " PRIu64 " " PRIu64 " ", 
+        "%" PRIu64 " %" PRIu64 " %" PRIu64 " ", 
         t->epoch, t->sstart, t->slast);
     putItok(args->f, t->str); 
 
