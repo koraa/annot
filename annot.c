@@ -695,6 +695,7 @@ void *thr_print(void *arg__) {
         "%" PRIu64 " %" PRIu64 " %" PRIu64 " ", 
         t->epoch, t->sstart, t->slast);
     putItok(args->f, t->str); 
+    fputc('\n', args->f);
 
     deleteTok(t);
   }
