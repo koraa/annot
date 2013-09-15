@@ -611,7 +611,7 @@ void *thr_read(void *arg__) {
   ArgRead *arg = arg__;
 
   Tok *t; 
-  while (!feof(arg->F)) { // Each token (mostly lines)
+  while (feof(arg->F)==0) { // Each token (mostly lines)
     t = newTok();
     nlock_lock(t->edit);
 
