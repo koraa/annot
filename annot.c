@@ -343,6 +343,19 @@ void* ll_pop(LL *queue) {
 
 }
 
+int ll_trypop(LL *l, void **buf) {
+  mutex_lock(l->lock);
+  bool em = ll_empty(l);
+  mutex_unlock(l->lock);
+
+  if (em)
+    return false;
+  else {
+    *buf = ll_pop(l);
+    return true;
+  }
+}
+
 /**
  * A buffer that knows,
  * how much space is allocated
