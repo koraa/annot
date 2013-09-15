@@ -433,11 +433,9 @@ LL *recyclr;
 
 /** Reuse a recycled buffer or generate a new one if no buffer is available */
 IBuf* getfrbuf() {
-  IBuf *ibuf = (IBuf*)ll_pop(recyclr);
-  if (ibuf==NULL) {
-    ibuf = talloc(IBuf);
-    ibuf->alloc = itelbuf_stdsize;
-    ibuf->buf = malloc(ibuf->alloc);
+  IBuf *ibuf;
+  if (!ll_trypop(recyclr, (void*)&ibuf)) {
+    ibuf = newIBuf(itelbuf_stdsize);
   }
   ibuf->len = 0;
   return ibuf;
