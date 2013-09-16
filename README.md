@@ -37,6 +37,7 @@ There is NO WARRANTY, to the extent permitted by law.
 
 ## TODO
 
+* Use low level functions for reading
 * DOC!
 * Create manpage
 * Error-proof all the types
