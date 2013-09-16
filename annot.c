@@ -12,89 +12,9 @@
 #include "types.h"
 #include "thread.h"
 #include "mutex.h"
+#include "cond.h"
+#include "nlock.h"
 
-typedef pthread_cond_t Cond;
-
-Cond* newCond(
-    const pthread_condattr_t *attr) {
-  Cond *nu = talloc(Cond);   
-  pthread_cond_init(nu, attr);
-  return nu;
-}
-
-void deleteCond(Cond *c) {
-  pthread_cond_destroy(c);
-  free(c);
-}
-
-void cond_signal(Cond *c) {
-  // TODO: Error Handling
-  pthread_cond_signal(c);
-}
-
-void cond_broadcast(Cond *c) {
-  // TODO: Error Handling
-  pthread_cond_broadcast(c);
-}
-
-void cond_wait(Cond *c, Mutex *m) {
-  // TODO: Error Handling
-  pthread_cond_wait(c,m);
-}
-
-typedef struct NLock__ NLock;
-struct NLock__ {
-  Mutex *m;
-  Cond  *c;
-  unsigned int i;
-};
-
-void nlock_init(NLock *m) {
-  m->m = newMutex(NULL);
-  m->c = newCond(NULL);
-  m->i = 0;
-}
-
-void nlock_destroy(NLock *m) {
-  deleteMutex(m->m);
-  deleteCond(m->c);
-}
-
-NLock *newNLock() {
-  NLock *nu = talloc(NLock);
-  nlock_init(nu);
-  return nu;
-}
-
-void deleteNLock(NLock *m) {
-  nlock_destroy(m);
-  free(m);
-}
-
-void nlock_lock(NLock *m) {
-  mutex_lock(m->m);
-  m->i++;
-  mutex_unlock(m->m);
-}
-
-void nlock_unlock(NLock *m) {
-  mutex_lock(m->m);
-  m->i--;
-  mutex_unlock(m->m);
-
-  if (m->i==0) // This is redundant. Actual check in wait
-    cond_signal(m->c);
-}
-
-void nlock_wait(NLock *m) {
-  mutex_lock(m->m);
-  while (true) {
-    if (m->i == 0)
-      break;
-    cond_wait(m->c, m->m);
-  }
-  mutex_unlock(m->m);
-}
 
 typedef struct LLelem__ LLelem;
 struct LLelem__ {
