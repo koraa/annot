@@ -17,41 +17,7 @@
 #include "linkedlist.h"
 #include "ibuf.h"
 #include "sbuf.h"
-
-
-/////////////////////////////////////////
-// PROGRAM
-
-/**
- * Token - The unit used in the processing Queue
- */
-typedef struct Tok__ Tok;
-struct Tok__ {
-  tstamp epoch, sstart, slast;
-  LL *str; // Use not thread save LL?
-  NLock *edit;
-};
-
-void tok_init(Tok *nu) {
-  nu->str = newLL();
-  nu->edit = newNLock();
-}
-
-Tok* newTok() {
-  Tok *nu = talloc(Tok);
-  tok_init(nu);
-  return nu;
-}
-
-void tok_destroy(Tok *t) {
-  deleteLL(t->str); 
-  deleteNLock(t->edit);
-}
-
-void deleteTok(Tok *t) {
-  tok_destroy(t);
-  free(t);
-}
+#include "queue.h"
 
 // Each of these queues is actually
 // a linked list.
