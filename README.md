@@ -35,6 +35,27 @@ There is NO WARRANTY, to the extent permitted by law.
 
 # Hacking
 
+## TODO
+
+* Create manpage
+* Error-proof all the types
+* TESTS!
+* Add writer and reciever to queue
+* Define recycle-queue in main
+* Options seconds/millis/nanos
+* Options include/exclude epoch/since-start/since-last
+* Add formatting shell script
+* Clang support
+* Install support
+* Autoinclude headers
+* Options custom seperator/zero
+* SIGSEGV error message
+* Define sbuf better (this '\0' delim is stupid)
+* SIGNAL timing support
+* Option print-delim/Print each dataset in seperate line
+* Option seperator times / data
+* Option ignore data/char as just a signal.
+
 ## Source
 
 The source code is stored at https://github.com/koraa/annot,
