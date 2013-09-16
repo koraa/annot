@@ -37,6 +37,7 @@ There is NO WARRANTY, to the extent permitted by law.
 
 ## TODO
 
+* DOC!
 * Create manpage
 * Error-proof all the types
 * TESTS!
